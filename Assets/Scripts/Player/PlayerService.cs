@@ -19,7 +19,7 @@ namespace ServiceLocator.Player
         private int health;
         public int Money { get; private set; }
 
-        public static PlayerService Instance;
+        public static PlayerService Instance { get { return instance; } }
         private static PlayerService instance;
 
         private void Awake()
