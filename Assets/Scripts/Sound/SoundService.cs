@@ -1,3 +1,4 @@
+using ServiceLocator.Player;
 using System;
 using UnityEngine;
 
@@ -9,6 +10,20 @@ namespace ServiceLocator.Sound
         [SerializeField] private AudioSource audioEffects;
         [SerializeField] private AudioSource backgroundMusic;
 
+        public static SoundService Instance;
+        private static SoundService instance;
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
         private void Start()
         {
             PlaybackgroundMusic(SoundType.BackgroundMusic, true);
