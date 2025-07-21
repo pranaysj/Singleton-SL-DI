@@ -28,11 +28,11 @@ namespace ServiceLocator.UI
         [SerializeField] private Button Map1Button;
 
         [Header("Monkey Selection UI")]
-        private MonkeySelectionUIController monkeySelectionController;
         [SerializeField] private GameObject MonkeySelectionPanel;
         [SerializeField] private Transform cellContainer;
         [SerializeField] private MonkeyCellView monkeyCellPrefab;
         [SerializeField] private List<MonkeyCellScriptableObject> monkeyCellScriptableObjects;
+        private MonkeySelectionUIController monkeySelectionController;
 
         [Header("Game End Panel")]
         [SerializeField] private GameObject gameEndPanel;
