@@ -4,11 +4,17 @@ using TMPro;
 using UnityEngine.UI;
 using ServiceLocator.Main;
 using UnityEngine.SceneManagement;
+using ServiceLocator.Player;
+using ServiceLocator.Wave;
+using ServiceLocator.Events;
 
 namespace ServiceLocator.UI
 {
     public class UIService : MonoBehaviour
     {
+        private WaveService waveService;
+        private EventService eventService;
+
         [Header("Gameplay Panel")]
         [SerializeField] private GameObject gameplayPanel;
         [SerializeField] private TextMeshProUGUI healthText;
@@ -37,9 +43,7 @@ namespace ServiceLocator.UI
 
         private void Start()
         {
-            monkeySelectionController = new MonkeySelectionUIController(cellContainer, monkeyCellPrefab, monkeyCellScriptableObjects);
             MonkeySelectionPanel.SetActive(false);
-            monkeySelectionController.SetActive(false);
 
             gameplayPanel.SetActive(false);
             levelSelectionPanel.SetActive(true);
@@ -50,7 +54,17 @@ namespace ServiceLocator.UI
             playAgainButton.onClick.AddListener(OnPlayAgainButtonClicked);
         }
 
-        public void SubscribeToEvents() => GameService.Instance.EventService.OnMapSelected.AddListener(OnMapSelected);
+        public void Init(WaveService waveService, EventService eventService, PlayerService playerService)
+        {
+            this.waveService = waveService;
+            this.eventService = eventService;
+            monkeySelectionController = new MonkeySelectionUIController(playerService, cellContainer, monkeyCellPrefab, monkeyCellScriptableObjects);
+            monkeySelectionController.SetActive(false);
+
+            SubscribeToEvents();
+        }
+
+        public void SubscribeToEvents() => eventService.OnMapSelected.AddListener(OnMapSelected);
 
         public void OnMapSelected(int mapID)
         {
@@ -63,7 +77,7 @@ namespace ServiceLocator.UI
 
         private void OnNextWaveButton()
         {
-            GameService.Instance.WaveService.StarNextWave();
+            waveService.StarNextWave();
             SetNextWaveButton(false);
         }
 
