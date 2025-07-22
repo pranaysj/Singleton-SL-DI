@@ -71,12 +71,16 @@ namespace ServiceLocator.Player
             attackTimer -= Time.deltaTime;
             if(attackTimer <= 0)
             {
-                ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
-                projectile.SetPosition(monkeyView.transform.position);
-                projectile.SetTarget(targetBloon);
-                soundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
+                CreateProjectileForTarget(targetBloon);
+                soundService.PlaySoundEffects(SoundType.MonkeyShoot);
                 ResetAttackTimer();
             }
+        }
+        private void CreateProjectileForTarget(BloonController targetBloon)
+        {
+            ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
+            projectile.SetPosition(monkeyView.transform.position);
+            projectile.SetTarget(targetBloon);
         }
 
         private void ResetAttackTimer() => attackTimer = monkeyScriptableObject.AttackRate;
